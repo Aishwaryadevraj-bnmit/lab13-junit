@@ -1,6 +1,3 @@
-
-
-
 pipeline {
     agent any
 
@@ -10,24 +7,18 @@ pipeline {
     }
 
     stages {
-
-        stage('Checkout') {
-            steps {
-                git '<repo-url>'
-            }
-        }
-
+        // REMOVED the 'Checkout' stage because Jenkins does this automatically
+        
         stage('Build & Test') {
             steps {
-                sh 'mvn clean test'
+                // Use 'bat' for Windows-based Jenkins (based on your logs)
+                bat 'mvn clean test'
             }
-        }
-
-    }
-
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
+                }
+            }
         }
     }
 }
